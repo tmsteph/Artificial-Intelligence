@@ -5,6 +5,9 @@ on:
     workflows: ["Generate Random Document and Run Tests"]
     types:
       - completed
+  push:
+    branches:
+      - main 
 
 jobs:
   push-changes:
