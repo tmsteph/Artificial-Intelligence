@@ -21,3 +21,4 @@ jobs:
           git add .
           git commit -m "Generate random document [skip ci]"
           git push
+
