@@ -1,0 +1,23 @@
+name: Push Changes
+
+on:
+  workflow_run:
+    workflows: ["Generate Random Document and Run Tests"]
+    types:
+      - completed
+
+jobs:
+  push-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Generate random document [skip ci]"
+          git push
