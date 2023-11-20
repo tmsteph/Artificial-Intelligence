@@ -1,0 +1,44 @@
+name: Generate Random Document and Run Tests
+
+on:
+  push:
+    branches:
+      - main  # Change this if you're using a different branch
+
+jobs:
+  generate-document:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies
+        run: npm install  # You can skip this if you don't have dependencies
+
+      - name: Run JavaScript Script and Tests
+        run: |
+          while true; do
+            node your_script.js  # Replace with the actual name of your JavaScript script
+            if [ $? -eq 0 ]; then
+              echo "Tests passed. Exiting loop."
+              break
+            else
+              echo "Tests failed. Retrying..."
+              git reset --hard HEAD~1  # Undo the last commit
+              sleep 10  # Adjust the sleep duration as needed
+            fi
+          done
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Generate random document [skip ci]"
+          git push
